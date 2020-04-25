@@ -8,6 +8,7 @@ Copy Once, Paste Everywhere
 CopyBoard 是一個簡單的 HTML 小工具，用於複製常用字串。
 
 便攜僅一個檔案，可以離線運作，純 HTML/Javascript 無需 Import 其他模組。
+
 There is only one portable file that can work offline, without importing any modules.
 
 ## 如何使用 ・ How To Use
@@ -42,5 +43,6 @@ var btnMap = {
 ---
 
 Reference:
+
 - css-tricks: [Emoji as Favicons](https://css-tricks.com/emojis-as-favicons/)
 - stack overflow: [Determine which button was clicked inside a div](https://stackoverflow.com/a/30499537)
