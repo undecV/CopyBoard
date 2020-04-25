@@ -4,14 +4,18 @@
 <meta charset="UTF-8" />
 <script>
 // Customize Your CopyBoard Here!
-var btnMap = [
-["😂", "🤣", "😅", "😆", "😎", "😏", "😪", "😉", "🤔", "🤷‍♀️", "🤦‍♀️", "👌", "🖖", "🤟", "💮", "💢", "🍜", "🍭"],
-["（・ω<）てへぺろ", "ヾ(≧∇≦*)ゝおはよんよん♪", "(*´･д･)ﾉ☆ｺﾝﾊﾞﾝﾊ☆", "（・∀・）∩＜やぁ！！"],
-["α", "β", "γ", "δ", "ϵ", "ζ", "η", "θ", "ι", "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ρ", "σ", "τ", "υ", "ϕ", "χ", "ψ", "ω"],
-["Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω"],
-["ε", "ϑ", "ϰ", "ϖ", "ϱ", "ς", "φ", "ϒ"],
-["×", "÷", "√", "∞", "π", "≠", "≤", "≥", "≃", "∫", "∑", "∏", "∂", "∇", "⊕", "⊗", "∧", "∨", "¬", "⊻", "⊼", "⊽", "∈", "∋", "∉", "∌", "⊂", "⊃", "⊆", "⊇", "⊄", "⊅", "⋃", "⋂", "∀", "∃", "∄", "∍", "∴", "∵"],
-]
+var btnMap = {
+    "Emoji": [
+        ["😂", "🤣", "😅", "😆", "😎", "😏", "😪", "😉", "🤔", "🤷‍♀️", "🤦‍♀️", "👌", "🖖", "🤟", "💮", "💢", "🍜", "🍭"],
+        ["（・ω<）てへぺろ", "ヾ(≧∇≦*)ゝおはよんよん♪", "(*´･д･)ﾉ☆ｺﾝﾊﾞﾝﾊ☆", "（・∀・）∩＜やぁ！！"],
+    ], "Greek": [
+        ["α", "β", "γ", "δ", "ϵ", "ζ", "η", "θ", "ι", "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ρ", "σ", "τ", "υ", "ϕ", "χ", "ψ", "ω"],
+        ["Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω"],
+    ], "Math": [
+        ["ε", "ϑ", "ϰ", "ϖ", "ϱ", "ς", "φ", "ϒ"],
+        ["×", "÷", "√", "∞", "π", "≠", "≤", "≥", "≃", "∫", "∑", "∏", "∂", "∇", "⊕", "⊗", "∧", "∨", "¬", "⊻", "⊼", "⊽", "∈", "∋", "∉", "∌", "⊂", "⊃", "⊆", "⊇", "⊄", "⊅", "⋃", "⋂", "∀", "∃", "∄", "∍", "∴", "∵"],
+    ]
+}
 </script>
 
 <title>CopyBoard</title>
@@ -24,7 +28,8 @@ button {font-family: monospace; font-size: 125%; color: #eaeaea; background-colo
 #mainContainer {width: 80%; text-align: center;}
 #copyText {font-size: 125%; text-align: center; width: 80%; color: #eaeaea; background-color: #424242; border: none; border-radius: 10px; height: 150%; padding: 5px 1px 5px 1px;}
 .btnRow {margin: 0 5% 10px 5%; line-height: 225%;}
-.btnEle:not(:last-child) {margin-right: 10px;}
+.btnRowItem:not(:last-child) {margin-right: 10px;}
+.tabSwBtn {background-color: #424242;}
 #copyTextHr {color: #969896; border: None; border-top: 2px solid #969896; margin: 16px 0 16px 0;}
 </style>
 </head>
@@ -32,29 +37,68 @@ button {font-family: monospace; font-size: 125%; color: #eaeaea; background-colo
 <div id="mainContainer" class="container">
 <input id="copyText" class="form-control" placeholder="📋 CopyBoard">
 <hr id="copyTextHr"/>
-<div id="btnBoard"></div>
-</div>
+<div id="tabSwBar" class="btnRow"></div>
+<div id="tabsView"></div>
 <script>
 window.onload = main;
 var copyText = document.getElementById("copyText");
-var btnBoard = document.getElementById("btnBoard");
+var tabSwBar = document.getElementById("tabSwBar");
+var tabsView = document.getElementById("tabsView");
+
 
 function main() {
-    document.getElementById("btnBoard").onclick = btnBoardEvent;
-    btnMap.forEach(function(row, rowi){
-        var rowNode = document.createElement("div");
-        rowNode.setAttribute("id", "btnRow_"+rowi);
-        rowNode.setAttribute("class", "btnRow");
-        btnBoard.appendChild(rowNode)
-        row.forEach(function(ele, elei){
-            var eleNode = document.createElement("button");
-            eleNode.setAttribute("id", "btn_"+rowi+"_"+elei);
-            eleNode.setAttribute("class", "btnEle");
-            eleNode.textContent = ele
-            rowNode.appendChild(eleNode)
+    document.getElementById("tabSwBar").onclick = tabSwEvent;
+    document.getElementById("tabsView").onclick = btnBoardEvent;
+
+    Object.keys(btnMap).forEach(function(tabText, tabIndex){
+        var tabMap = btnMap[tabText]
+        var tabSwBtnNode = document.createElement("button");
+        tabSwBtnNode.setAttribute("id", `tabSw_${tabText}`);
+        tabSwBtnNode.textContent = tabText
+        tabSwBtnNode.setAttribute("class", "tabSwBtn btnRowItem");
+        tabSwBar.appendChild(tabSwBtnNode)
+
+        var tabNode = document.createElement("div");
+        tabNode.setAttribute("id", `tab_${tabText}`);
+        tabNode.setAttribute("class", "btnBoard");
+        if (tabIndex !== 0) {
+            tabNode.setAttribute("style", "display: none;");
+        }
+        tabsView.appendChild(tabNode)
+
+        tabMap.forEach(function(row, rowIndex){
+            var rowNode = document.createElement("div");
+            rowNode.setAttribute("id", `btnRow_${tabText}_${rowIndex}`);
+            rowNode.setAttribute("class", "btnRow");
+            tabNode.appendChild(rowNode)
+
+            row.forEach(function(ele, eleIndex){
+                var eleNode = document.createElement("button");
+                eleNode.setAttribute("id", `btn_${tabText}_${rowIndex}_${eleIndex}`);
+                eleNode.setAttribute("class", "btnRowItem");
+                eleNode.textContent = ele
+                rowNode.appendChild(eleNode)
+            })
         })
     })
 }
+
+
+function tabSwEvent(event){
+    var element = event.target;
+    if (element.tagName != 'BUTTON') {return}
+    copyText.value = `Switch to tab "${element.textContent}"`;
+    var tabs = tabsView.childNodes;
+    for (var i = 0; i < tabs.length; i++) {
+        var tab = tabs[i];
+        if (tab.id === `tab_${element.textContent}`) {
+            tab.setAttribute("style", "display: block;")
+        } else {
+            tab.setAttribute("style", "display: none;")
+        }
+    }
+}
+
 
 function btnBoardEvent(event) {
     var element = event.target;

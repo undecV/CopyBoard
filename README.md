@@ -12,8 +12,10 @@ There is only one portable file that can work offline, without importing any mod
 
 ## 如何使用 ・ How To Use
 
+點選分頁按鈕切換分頁；
 點選對應的按鈕即可複製按鈕上的字串到剪貼簿。
-Copy the text of the button you clicked.
+
+Switch tabs, Then copy the text of the button you clicked.
 
 ## 定製你的 CopyBoard ・ Customize
 
@@ -29,10 +31,12 @@ Each array is a button group, and each value is a button,
 Save the code and refresh the webpage.
 
 ```js
-var btnMap = [
-    ["字串", "字串"],
-    ["字串"]
-]
+var btnMap = {
+    "TabName"： [
+        ["foo", "bar"],
+        ["Blablabla"]
+    ]  // , ...
+}
 ```
 
 ---
