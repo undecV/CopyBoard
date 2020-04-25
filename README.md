@@ -1,7 +1,7 @@
 # CopyBoard
 
 Copy Once, Paste Everywhere
-一鍵複製，到處粘貼
+一鍵複製，到處貼上
 
 ![CopyBoard](./screenshot.png)
 
@@ -12,15 +12,15 @@ There is only one portable file that can work offline, without importing any mod
 
 ## 如何使用 ・ How To Use
 
-點選對應的按鈕即可複製按鈕上的字串到剪貼板。
+點選對應的按鈕即可複製按鈕上的字串到剪貼簿。
 Copy the text of the button you clicked.
 
-## 定制你的 CopyBoard ・ Customize
+## 定製你的 CopyBoard ・ Customize
 
-編輯 CopyBoard 的源代碼（以 txt 純文字檔方式打開）；
+編輯 CopyBoard 的原始碼（以 txt 純文字檔方式開啟）；
 在檔案的開頭不遠處，仿照格式編輯變數 `btnMap`；
 每個 Array 對應一組，每個 value 是一個按鈕；
-儲存后刷新網頁即可。
+儲存後重新整理網頁即可。
 
 Open CopyBoard as the source code,
 At the beginning of the code,
