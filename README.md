@@ -1,41 +1,37 @@
 # CopyBoard
 
 Copy Once, Paste Everywhere
-一鍵複製，到處貼上
 
-![CopyBoard](./screenshot.png)
+[English](README.md) | [正體中文](docs/README.zh_TW.md)
 
-CopyBoard 是一個簡單的 HTML 小工具，用於複製常用字串。
+![CopyBoard](docs/screenshots/screenshot.png)
 
-便攜僅一個檔案，可以離線運作，純 HTML/Javascript 無需 Import 其他模組。
+CopyBoard is a simple tool for quickly and easily copying commonly used strings.
 
 There is only one portable file that can work offline, without importing any modules.
 
-## 如何使用 ・ How To Use
+- Support tab.
+- 🆕 Supports light and dark mode.
 
-點選分頁按鈕切換分頁；
-點選對應的按鈕即可複製按鈕上的字串到剪貼簿。
+## How To Use
 
-Switch tabs, Then copy the text of the button you clicked.
+1. Click a paging button to switch pages;
+2. Click the corresponding button to copy the string on the button to the clipboard.
 
-## 定製你的 CopyBoard ・ Customize
+## Customize
 
-編輯 CopyBoard 的原始碼（以 txt 純文字檔方式開啟）；
-在檔案的開頭不遠處，仿照格式編輯變數 `btnMap`；
-每個 Array 對應一組，每個 value 是一個按鈕；
-儲存後重新整理網頁即可。
+Edit the source code of CopyBoard (open it as a txt file);
+Not far from the beginning of the file, edit the variable `buttonMap` according to the format;
+Each Array corresponds to a group, and each value is a button;
+Save and refresh the webpage.
 
-Open CopyBoard as the source code,
-At the beginning of the code,
-Follow the format and edit the variable `btnMap`,
-Each array is a button group, and each value is a button,
-Save the code and refresh the webpage.
-
-```js
-var btnMap = {
-    "TabName"： [
-        ["foo", "bar"],
-        ["Blablabla"]
+```javascript
+var buttonMap = {
+    "Some Tab"： [
+        ["Foo", "Bar"],
+        ["Bla bla bla..."]
+    ], "Another Tab"： [
+        ["A Lonely Button"]
     ]  // , ...
 }
 ```
@@ -44,5 +40,5 @@ var btnMap = {
 
 Reference:
 
-- css-tricks: [Emoji as Favicons](https://css-tricks.com/emojis-as-favicons/)
-- stack overflow: [Determine which button was clicked inside a div](https://stackoverflow.com/a/30499537)
+- Color theme comes from [chriskempson/tomorrow-theme](https://github.com/chriskempson/tomorrow-theme) (MIT)
+- A small part of CSS is borrowed from the [teacat/tocas](https://github.com/teacat/tocas) (MIT)

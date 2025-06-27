@@ -1,112 +1,344 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="dark">
+
 <head>
-<meta charset="UTF-8" />
-<script>
-// Customize Your CopyBoard Here!
-var btnMap = {
-    "Emoji": [
+  <meta lang="en" charset="UTF-8" />
+
+  <script>
+    // Customize Your CopyBoard Here!
+    var buttonMap = {
+      "Emoji": [
         ["😂", "🤣", "😅", "😆", "😎", "😏", "😪", "😉", "🤔", "🤷‍♀️", "🤦‍♀️", "👌", "🖖", "🤟", "💮", "💢", "🍜", "🍭"],
         ["（・ω<）てへぺろ", "ヾ(≧∇≦*)ゝおはよんよん♪", "(*´･д･)ﾉ☆ｺﾝﾊﾞﾝﾊ☆", "（・∀・）∩＜やぁ！！"],
-    ], "Greek": [
+      ], "Greek": [
         ["α", "β", "γ", "δ", "ϵ", "ζ", "η", "θ", "ι", "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ρ", "σ", "τ", "υ", "ϕ", "χ", "ψ", "ω"],
         ["Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ", "Ι", "Κ", "Λ", "Μ", "Ν", "Ξ", "Ο", "Π", "Ρ", "Σ", "Τ", "Υ", "Φ", "Χ", "Ψ", "Ω"],
-    ], "Math": [
+      ], "Math": [
         ["ε", "ϑ", "ϰ", "ϖ", "ϱ", "ς", "φ", "ϒ"],
-        ["×", "÷", "√", "∞", "π", "≠", "≤", "≥", "≃", "∫", "∑", "∏", "∂", "∇", "⊕", "⊗", "∧", "∨", "¬", "⊻", "⊼", "⊽", "∈", "∋", "∉", "∌", "⊂", "⊃", "⊆", "⊇", "⊄", "⊅", "⋃", "⋂", "∀", "∃", "∄", "∍", "∴", "∵"],
-    ]
-}
-</script>
-
-<title>CopyBoard</title>
-<meta name="robots" content="noindex" />
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📋</text></svg>">
-
-<style>
-html, body {min-height: 100%; min-width: 100%; background-color: #000; display: flex; align-items: center; justify-content: center;}
-button {font-family: monospace; font-size: 125%; color: #eaeaea; background-color: #2a2a2a; border: None; border-radius: 10px;}
-#mainContainer {width: 80%; text-align: center;}
-#copyText {font-size: 125%; text-align: center; width: 80%; color: #eaeaea; background-color: #424242; border: none; border-radius: 10px; height: 150%; padding: 5px 1px 5px 1px;}
-.btnRow {margin: 0 5% 10px 5%; line-height: 225%;}
-.btnRowItem:not(:last-child) {margin-right: 10px;}
-.tabSwBtn {background-color: #424242;}
-#copyTextHr {color: #969896; border: None; border-top: 2px solid #969896; margin: 16px 0 16px 0;}
-</style>
-</head>
-<body>
-<div id="mainContainer" class="container">
-<input id="copyText" class="form-control" placeholder="📋 CopyBoard">
-<hr id="copyTextHr"/>
-<div id="tabSwBar" class="btnRow"></div>
-<div id="tabsView"></div>
-<script>
-window.onload = main;
-var copyText = document.getElementById("copyText");
-var tabSwBar = document.getElementById("tabSwBar");
-var tabsView = document.getElementById("tabsView");
-
-
-function main() {
-    document.getElementById("tabSwBar").onclick = tabSwEvent;
-    document.getElementById("tabsView").onclick = btnBoardEvent;
-
-    Object.keys(btnMap).forEach(function(tabText, tabIndex){
-        var tabMap = btnMap[tabText]
-        var tabSwBtnNode = document.createElement("button");
-        tabSwBtnNode.setAttribute("id", `tabSw_${tabText}`);
-        tabSwBtnNode.textContent = tabText
-        tabSwBtnNode.setAttribute("class", "tabSwBtn btnRowItem");
-        tabSwBar.appendChild(tabSwBtnNode)
-
-        var tabNode = document.createElement("div");
-        tabNode.setAttribute("id", `tab_${tabText}`);
-        tabNode.setAttribute("class", "btnBoard");
-        if (tabIndex !== 0) {
-            tabNode.setAttribute("style", "display: none;");
-        }
-        tabsView.appendChild(tabNode)
-
-        tabMap.forEach(function(row, rowIndex){
-            var rowNode = document.createElement("div");
-            rowNode.setAttribute("id", `btnRow_${tabText}_${rowIndex}`);
-            rowNode.setAttribute("class", "btnRow");
-            tabNode.appendChild(rowNode)
-
-            row.forEach(function(ele, eleIndex){
-                var eleNode = document.createElement("button");
-                eleNode.setAttribute("id", `btn_${tabText}_${rowIndex}_${eleIndex}`);
-                eleNode.setAttribute("class", "btnRowItem");
-                eleNode.textContent = ele
-                rowNode.appendChild(eleNode)
-            })
-        })
-    })
-}
-
-
-function tabSwEvent(event){
-    var element = event.target;
-    if (element.tagName != 'BUTTON') {return}
-    copyText.value = `Switch to tab "${element.textContent}"`;
-    var tabs = tabsView.childNodes;
-    for (var i = 0; i < tabs.length; i++) {
-        var tab = tabs[i];
-        if (tab.id === `tab_${element.textContent}`) {
-            tab.setAttribute("style", "display: block;")
-        } else {
-            tab.setAttribute("style", "display: none;")
-        }
+        ["×", "÷", "√", "∞", "π", "≠", "≤", "≥", "≃", "∫", "∑", "∏", "∂", "∇", "⊕", "⊗", "∧", "∨", "¬", "⊻", "⊼", "⊽"],
+        ["⫫", "∅", "∈", "∋", "∉", "∌", "⊂", "⊃", "⊆", "⊇", "⊄", "⊅", "⋃", "⋂", "∀", "∃", "∄", "∍", "∴", "∵"],
+      ]
     }
-}
+  </script>
 
+  <title>CopyBoard</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📋</text></svg>">
 
-function btnBoardEvent(event) {
-    var element = event.target;
-    if (element.tagName != 'BUTTON') {return}
-    copyText.value = element.textContent;
-    copyText.select();
-    document.execCommand("copy");
-}
-</script>
+  <style>
+    /*Colors: "https://github.com/chriskempson/tomorrow-theme" */
+
+    :root[data-theme="dark"] {
+      --foreground: #c5c8c6;
+      --background: #1d1f21;
+      --selection: #373b41;
+      --line: #282a2e;
+      --comment: #969896;
+      --red: #cc6666;
+      --orange: #de935f;
+      --yellow: #f0c674;
+      --green: #b5bd68;
+      --aqua: #8abeb7;
+      --blue: #81a2be;
+      --purple: #b294bb;
+      --window: #4d5057;
+    }
+
+    :root[data-theme="light"] {
+      --foreground: #4d4d4c;
+      --background: #ffffff;
+      --selection: #d6d6d6;
+      --line: #efefef;
+      --comment: #8e908c;
+      --red: #c82829;
+      --orange: #f5871f;
+      --yellow: #eab700;
+      --green: #718c00;
+      --aqua: #3e999f;
+      --blue: #4271ae;
+      --purple: #8959a8;
+      --window: #efefef;
+    }
+
+    :root {
+      --radius: .5rem;
+      --sans-serif: sans-serif;
+    }
+
+    html,
+    body {
+      height: 100%;
+      min-width: 100%;
+      background-color: var(--background);
+      color: var(--foreground);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    main {
+      width: 100%;
+      height: 100%;
+      flex: 1;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    div.container#main-container {
+      width: 80%;
+      display: flex;
+      text-align: center;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    input#copyText {
+      font-size: 1.6rem;
+      text-align: center;
+      width: 60%;
+      color: var(--foreground);
+      background-color: var(--selection);
+      border: none;
+      border-radius: var(--radius);
+      padding: .2rem 1rem;
+    }
+
+    hr {
+      min-height: .15rem;
+      width: 100%;
+      border: none;
+      border-radius: var(--radius);
+      color: var(--line);
+      background-color: var(--line);
+    }
+
+    button {
+      font-family: monospace;
+      color: var(--foreground);
+      background-color: var(--line);
+      border: None;
+      border-radius: var(--radius);
+      padding: .2rem .2rem;
+    }
+
+    button:hover {
+      background-color: var(--selection);
+    }
+
+    .text-button {
+      font-size: 1rem;
+    }
+
+    .tab-view-container {
+      display: flex;
+      text-align: center;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .tab-view {
+      display: flex;
+      text-align: center;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .4rem;
+    }
+
+    .tab-view-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: .4rem;
+    }
+
+    .selection {
+      display: inline-flex;
+      padding: .4rem;
+      gap: .2rem;
+      border-radius: var(--radius);
+      background-color: var(--line);
+    }
+
+    .selection .item {
+      display: flex;
+    }
+
+    .selection .item .text {
+      font-family: var(--sans-serif);
+      padding: .2rem 1rem;
+      color: var(--foreground);
+      border-radius: var(--radius);
+    }
+
+    .selection.is-icon .item .text {
+      padding: .2rem .4rem;
+    }
+
+    .selection .item input {
+      display: none;
+    }
+
+    .selection .item input:checked+.text {
+      background-color: var(--selection);
+    }
+
+    .is-hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <div id="main-container" class="container"> <input id="copyText" class="form-control" placeholder="📋 CopyBoard">
+      <hr id="copy-text-horizon" />
+      <div id="tab-switch" class="selection">
+        <template id="tab-label-template">
+          <label class="item" data-index="0">
+            <input data-role="input" type="radio" name="tab-switch">
+            <div data-role="label" class="text">Default</div>
+          </label>
+        </template>
+      </div>
+      <div id="tab-view-container" class="tab-view-container">
+      </div>
+      <div class="tab-view-container">
+        <template>
+          <div class="tab-view">
+            <div class="tab-view-row">
+              <button class="text-button">😂</button>
+            </div>
+          </div>
+        </template>
+      </div>
+  </main>
+  <footer>
+    <div id="theme-selector" class="selection is-icon">
+      <label class="item">
+        <input type="radio" name="theme-selector" value="light">
+        <div class="text">🌞</div>
+      </label>
+      <label class="item">
+        <input type="radio" name="theme-selector" value="dark" checked>
+        <div class="text">🌚</div>
+      </label>
+    </div>
+  </footer>
+
+  <script>
+    class Model { }
+    class View {
+      constructor(controller) {
+        this.controller = controller;
+      }
+
+      bindEvents() {
+        const themeSelector = document.getElementById("theme-selector");
+        themeSelector.addEventListener("change", (event) => this.controller.onThemeToggle(event));
+        const tabSwitch = document.getElementById("tab-switch");
+        tabSwitch.addEventListener("change", (event) => this.controller.onTabSwitch(event));
+      }
+
+      updateTheme(theme) {
+        switch (theme) {
+          case "dark":
+            document.documentElement.dataset.theme = "dark";
+            break;
+          case "light":
+            document.documentElement.dataset.theme = "light";
+            break;
+          default:
+            console.warn(`Unknown theme: ${theme}`);
+            return;
+        }
+      }
+
+      renderButtonMap(buttonMap) {
+        const tabSwitch = document.getElementById("tab-switch");
+        const tabLabelTemplate = document.getElementById("tab-label-template");
+        const tabviewContainer = document.getElementById("tab-view-container");
+
+        Object.entries(buttonMap).forEach(([tabName, tabRows], tabIndex) => {
+          const tabLabel = tabLabelTemplate.content.firstElementChild.cloneNode(true);
+          tabLabel.dataset.index = tabIndex.toString();
+          const input = tabLabel.querySelector('[data-role="input"]');
+          const label = tabLabel.querySelector('[data-role="label"]');
+          input.checked = tabIndex === 0;
+          label.textContent = tabName;
+          tabSwitch.appendChild(tabLabel);
+
+          const tabView = document.createElement("div");
+          tabView.classList.toggle("tab-view", true);
+          tabView.classList.toggle("is-hidden", tabIndex > 0);
+          tabView.dataset.index = tabIndex.toString();
+          tabviewContainer.appendChild(tabView);
+
+          tabRows.forEach((tabRow, tabRowIndex) => {
+            const tabViewRow = document.createElement("div");
+            tabViewRow.classList.toggle("tab-view-row", true);
+            tabViewRow.dataset.index = tabRowIndex.toString();
+            tabView.appendChild(tabViewRow);
+
+            tabRow.forEach((button, buttonIndex) => {
+              const buttonElement = document.createElement("button");
+              tabViewRow.classList.toggle("text-button", true);
+              buttonElement.dataset.index = buttonIndex.toString();
+              buttonElement.textContent = button;
+              buttonElement.addEventListener("click", (event) => this.controller.onTextButtonClick(event));
+              tabViewRow.appendChild(buttonElement);
+            });
+          });
+        });
+      }
+    }
+    class Controller {
+      constructor(model) {
+        this.model = model;
+        this.view = new View(this);
+      }
+
+      init() {
+        this.view.renderButtonMap(buttonMap);
+        this.view.bindEvents();
+      }
+
+      onThemeToggle(event) {
+        const themeSelector = event.currentTarget;
+        const checkedInput = themeSelector.querySelector("input[name='theme-selector']:checked");
+        const theme = checkedInput?.value ?? "light";
+        this.view.updateTheme(theme);
+      }
+
+      onTabSwitch(event) {
+        const selected = event.target.closest("label.item");
+        if (!selected) return;
+        const index = selected.dataset.index;
+        document.querySelectorAll("#tab-view-container > *").forEach((el, i) => {
+          el.classList.toggle("is-hidden", i != index);
+        });
+      }
+
+      onTextButtonClick(event) {
+        const text = event.currentTarget.textContent;
+        document.getElementById("copyText").value = text;
+        navigator.clipboard.writeText(text).catch(() => { });
+      }
+    }
+
+    const model = new Model();
+    const control = new Controller(model);
+    control.init();
+  </script>
 </body>
+
 </html>
