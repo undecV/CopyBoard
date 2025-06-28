@@ -11,7 +11,7 @@ CopyBoard is a simple tool for quickly and easily copying commonly used strings.
 There is only one portable file that can work offline, without importing any modules.
 
 - Support tab.
-- 🆕 Supports light and dark mode.
+- 🆕 Supports auto, light, and dark mode.
 - 🆕 Remember color theme and last tab.
 - 🆕 Support mobile devices.
 

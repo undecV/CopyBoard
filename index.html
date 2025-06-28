@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
@@ -28,25 +28,9 @@
     href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📋</text></svg>">
 
   <style>
-    /*Colors: "https://github.com/chriskempson/tomorrow-theme" */
-
-    :root[data-theme="dark"] {
-      --foreground: #c5c8c6;
-      --background: #1d1f21;
-      --selection: #373b41;
-      --line: #282a2e;
-      --comment: #969896;
-      --red: #cc6666;
-      --orange: #de935f;
-      --yellow: #f0c674;
-      --green: #b5bd68;
-      --aqua: #8abeb7;
-      --blue: #81a2be;
-      --purple: #b294bb;
-      --window: #4d5057;
-    }
-
-    :root[data-theme="light"] {
+    /* Default theme.*/
+    :root {
+      /* Color theme: Tomorrow */
       --foreground: #4d4d4c;
       --background: #ffffff;
       --selection: #d6d6d6;
@@ -60,6 +44,78 @@
       --blue: #4271ae;
       --purple: #8959a8;
       --window: #efefef;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        /* Color theme: Tomorrow Night */
+        --foreground: #c5c8c6;
+        --background: #1d1f21;
+        --selection: #373b41;
+        --line: #282a2e;
+        --comment: #969896;
+        --red: #cc6666;
+        --orange: #de935f;
+        --yellow: #f0c674;
+        --green: #b5bd68;
+        --aqua: #8abeb7;
+        --blue: #81a2be;
+        --purple: #b294bb;
+        --window: #4d5057;
+      }
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        /* Color theme: Tomorrow */
+        --foreground: #4d4d4c;
+        --background: #ffffff;
+        --selection: #d6d6d6;
+        --line: #efefef;
+        --comment: #8e908c;
+        --red: #c82829;
+        --orange: #f5871f;
+        --yellow: #eab700;
+        --green: #718c00;
+        --aqua: #3e999f;
+        --blue: #4271ae;
+        --purple: #8959a8;
+        --window: #efefef;
+      }
+    }
+
+    :root[data-theme="light"] {
+      /* Color theme: Tomorrow */
+      --foreground: #4d4d4c;
+      --background: #ffffff;
+      --selection: #d6d6d6;
+      --line: #efefef;
+      --comment: #8e908c;
+      --red: #c82829;
+      --orange: #f5871f;
+      --yellow: #eab700;
+      --green: #718c00;
+      --aqua: #3e999f;
+      --blue: #4271ae;
+      --purple: #8959a8;
+      --window: #efefef;
+    }
+
+    :root[data-theme="dark"] {
+      /* Color theme: Tomorrow Night */
+      --foreground: #c5c8c6;
+      --background: #1d1f21;
+      --selection: #373b41;
+      --line: #282a2e;
+      --comment: #969896;
+      --red: #cc6666;
+      --orange: #de935f;
+      --yellow: #f0c674;
+      --green: #b5bd68;
+      --aqua: #8abeb7;
+      --blue: #81a2be;
+      --purple: #b294bb;
+      --window: #4d5057;
     }
 
     :root {
@@ -111,7 +167,6 @@
       padding: .2em 1em;
     }
 
-    
     input#copy-text:focus {
       outline: .2em solid var(--blue);
     }
@@ -201,7 +256,7 @@
       display: none;
     }
 
-    .selection .item input:checked + .text {
+    .selection .item input:checked+.text {
       background-color: var(--selection);
     }
 
@@ -215,7 +270,8 @@
   <main>
     <div id="main-container" class="container">
       <label>
-        <input id="copy-text" class="form-control" aria-label="Copy text input field" name="copy-text" tabindex="0" placeholder="📋 CopyBoard">
+        <input id="copy-text" class="form-control" aria-label="Copy text input field" name="copy-text" tabindex="0"
+          placeholder="📋 CopyBoard">
       </label>
       <hr id="copy-text-horizon" />
       <div id="tab-switch" class="selection">
@@ -241,6 +297,10 @@
   <footer>
     <div id="theme-selector" class="selection is-icon">
       <label class="item">
+        <input type="radio" name="theme-selector" value="auto">
+        <div class="text">🌐</div>
+      </label>
+      <label class="item">
         <input type="radio" name="theme-selector" value="light">
         <div class="text">🌞</div>
       </label>
@@ -254,7 +314,7 @@
   <script>
     class Model {
       buttonMap = buttonMap;
-      themes = ["light", "dark"];
+      themes = ["auto", "light", "dark"];
       #theme = "dark";
       #tabIndex = "0";
 
@@ -396,7 +456,7 @@
       }
 
       handleTextButtonClick(text) {
-        navigator.clipboard.writeText(text).catch(() => {})
+        navigator.clipboard.writeText(text).catch(() => { })
         this.view.renderCopiedText(text);
       }
     }
