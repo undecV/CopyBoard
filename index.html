@@ -119,8 +119,9 @@
     }
 
     :root {
+      color-scheme: light dark;
       --radius: .5em;
-      --sans-serif: sans-serif;
+      --sans-serif: system-ui, sans-serif;
     }
 
     html,
@@ -376,7 +377,7 @@
       renderButtonMap(buttonMap) {
         const tabSwitch = document.getElementById("tab-switch");
         const tabLabelTemplate = document.getElementById("tab-label-template");
-        const tabviewContainer = document.getElementById("tab-view-container");
+        const tabViewContainer = document.getElementById("tab-view-container");
 
         Object.entries(buttonMap).forEach(([tabName, tabRows], tabIndex) => {
           const tabLabel = tabLabelTemplate.content.firstElementChild.cloneNode(true);
@@ -393,7 +394,7 @@
           tabView.classList.toggle("tab-view", true);
           tabView.classList.toggle("is-hidden", tabIndex > 0);
           tabView.dataset.index = tabIndex.toString();
-          tabviewContainer.appendChild(tabView);
+          tabViewContainer.appendChild(tabView);
 
           tabRows.forEach((tabRow, tabRowIndex) => {
             const tabViewRow = document.createElement("div");
