@@ -12,6 +12,8 @@ There is only one portable file that can work offline, without importing any mod
 
 - Support tab.
 - 🆕 Supports light and dark mode.
+- 🆕 Remember color theme and last tab.
+- 🆕 Support mobile devices.
 
 ## How To Use
 

@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html data-theme="dark">
+<html lang="en" data-theme="dark">
 
 <head>
-  <meta lang="en" charset="UTF-8" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <script>
     // Customize Your CopyBoard Here!
-    var buttonMap = {
+    const buttonMap = {
       "Emoji": [
         ["😂", "🤣", "😅", "😆", "😎", "😏", "😪", "😉", "🤔", "🤷‍♀️", "🤦‍♀️", "👌", "🖖", "🤟", "💮", "💢", "🍜", "🍭"],
         ["（・ω<）てへぺろ", "ヾ(≧∇≦*)ゝおはよんよん♪", "(*´･д･)ﾉ☆ｺﾝﾊﾞﾝﾊ☆", "（・∀・）∩＜やぁ！！"],
@@ -62,7 +63,7 @@
     }
 
     :root {
-      --radius: .5rem;
+      --radius: .5em;
       --sans-serif: sans-serif;
     }
 
@@ -72,6 +73,7 @@
       min-width: 100%;
       background-color: var(--background);
       color: var(--foreground);
+      font-family: var(--sans-serif);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -95,22 +97,27 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
+      gap: 1em;
     }
 
-    input#copyText {
-      font-size: 1.6rem;
+    input#copy-text {
+      font-size: 1.6em;
       text-align: center;
       width: 60%;
       color: var(--foreground);
       background-color: var(--selection);
       border: none;
       border-radius: var(--radius);
-      padding: .2rem 1rem;
+      padding: .2em 1em;
+    }
+
+    
+    input#copy-text:focus {
+      outline: .2em solid var(--blue);
     }
 
     hr {
-      min-height: .15rem;
+      min-height: .15em;
       width: 100%;
       border: none;
       border-radius: var(--radius);
@@ -124,15 +131,20 @@
       background-color: var(--line);
       border: None;
       border-radius: var(--radius);
-      padding: .2rem .2rem;
+      padding: .2em .2em;
     }
 
     button:hover {
       background-color: var(--selection);
     }
 
+    button:focus {
+      background-color: var(--selection);
+      outline: .2em solid var(--blue);
+    }
+
     .text-button {
-      font-size: 1rem;
+      font-size: 1em;
     }
 
     .tab-view-container {
@@ -141,7 +153,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
+      gap: 1em;
     }
 
     .tab-view {
@@ -150,7 +162,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: .4rem;
+      gap: .4em;
     }
 
     .tab-view-row {
@@ -158,37 +170,38 @@
       flex-wrap: wrap;
       align-items: center;
       justify-content: center;
-      gap: .4rem;
+      gap: .4em;
     }
 
     .selection {
       display: inline-flex;
-      padding: .4rem;
-      gap: .2rem;
+      padding: .4em;
+      gap: .2em;
       border-radius: var(--radius);
       background-color: var(--line);
     }
 
     .selection .item {
       display: flex;
+      border-radius: var(--radius);
     }
 
     .selection .item .text {
       font-family: var(--sans-serif);
-      padding: .2rem 1rem;
+      padding: .2em 1em;
       color: var(--foreground);
       border-radius: var(--radius);
     }
 
     .selection.is-icon .item .text {
-      padding: .2rem .4rem;
+      padding: .2em .4em;
     }
 
     .selection .item input {
       display: none;
     }
 
-    .selection .item input:checked+.text {
+    .selection .item input:checked + .text {
       background-color: var(--selection);
     }
 
@@ -200,11 +213,14 @@
 
 <body>
   <main>
-    <div id="main-container" class="container"> <input id="copyText" class="form-control" placeholder="📋 CopyBoard">
+    <div id="main-container" class="container">
+      <label>
+        <input id="copy-text" class="form-control" aria-label="Copy text input field" name="copy-text" tabindex="0" placeholder="📋 CopyBoard">
+      </label>
       <hr id="copy-text-horizon" />
       <div id="tab-switch" class="selection">
         <template id="tab-label-template">
-          <label class="item" data-index="0">
+          <label class="item">
             <input data-role="input" type="radio" name="tab-switch">
             <div data-role="label" class="text">Default</div>
           </label>
@@ -212,15 +228,15 @@
       </div>
       <div id="tab-view-container" class="tab-view-container">
       </div>
-      <div class="tab-view-container">
-        <template>
+      <template>
+        <div class="tab-view-container">
           <div class="tab-view">
             <div class="tab-view-row">
               <button class="text-button">😂</button>
             </div>
           </div>
-        </template>
-      </div>
+        </div>
+      </template>
   </main>
   <footer>
     <div id="theme-selector" class="selection is-icon">
@@ -236,31 +252,65 @@
   </footer>
 
   <script>
-    class Model { }
+    class Model {
+      buttonMap = buttonMap;
+      themes = ["light", "dark"];
+      #theme = "dark";
+      #tabIndex = "0";
+
+      constructor() {
+        this.theme = localStorage.getItem("copyboard-theme");
+        this.tabIndex = localStorage.getItem("copyboard-tab-index");
+      }
+
+      get theme() {
+        return this.#theme;
+      }
+
+      set theme(value) {
+        this.#theme = this.themes.includes(value) ? value : this.themes[0];
+        localStorage.setItem("copyboard-theme", this.#theme);
+      }
+
+      get tabIndex() {
+        return this.#tabIndex;
+      }
+
+      set tabIndex(value) {
+        const indices = Object.keys(buttonMap).map((_, i) => i);
+        const index = typeof value === "number" ? value : parseInt(value, 10);
+        this.#tabIndex = indices.includes(index) ? index : indices[0];
+        localStorage.setItem("copyboard-tab-index", this.#tabIndex);
+      }
+    }
+
     class View {
-      constructor(controller) {
-        this.controller = controller;
-      }
+      constructor() { }
 
-      bindEvents() {
+      onThemeChange(callback) {
         const themeSelector = document.getElementById("theme-selector");
-        themeSelector.addEventListener("change", (event) => this.controller.onThemeToggle(event));
-        const tabSwitch = document.getElementById("tab-switch");
-        tabSwitch.addEventListener("change", (event) => this.controller.onTabSwitch(event));
+        themeSelector.addEventListener("change", (event) => {
+          callback(event.target.value);
+        });
       }
 
-      updateTheme(theme) {
-        switch (theme) {
-          case "dark":
-            document.documentElement.dataset.theme = "dark";
-            break;
-          case "light":
-            document.documentElement.dataset.theme = "light";
-            break;
-          default:
-            console.warn(`Unknown theme: ${theme}`);
-            return;
-        }
+      onTabChange(callback) {
+        const tabSwitch = document.getElementById("tab-switch");
+        tabSwitch.addEventListener("change", (event) => {
+          callback(event.target.value);
+        });
+      }
+
+      switchTheme(theme) {
+        document.documentElement.setAttribute("data-theme", theme);
+        document.querySelector(`input[name="theme-selector"][value="${theme}"]`).checked = true;
+      }
+
+      switchTab(index) {
+        document.querySelector(`input[name="tab-switch"][value="${index}"]`).checked = true;
+        document.querySelectorAll("#tab-view-container > *").forEach((element, i) => {
+          element.classList.toggle("is-hidden", i != index);
+        });
       }
 
       renderButtonMap(buttonMap) {
@@ -274,6 +324,8 @@
           const input = tabLabel.querySelector('[data-role="input"]');
           const label = tabLabel.querySelector('[data-role="label"]');
           input.checked = tabIndex === 0;
+          input.value = tabIndex.toString();
+          input.dataset.index = tabIndex.toString();
           label.textContent = tabName;
           tabSwitch.appendChild(tabLabel);
 
@@ -291,52 +343,65 @@
 
             tabRow.forEach((button, buttonIndex) => {
               const buttonElement = document.createElement("button");
-              tabViewRow.classList.toggle("text-button", true);
+              buttonElement.classList.toggle("text-button", true);
               buttonElement.dataset.index = buttonIndex.toString();
               buttonElement.textContent = button;
-              buttonElement.addEventListener("click", (event) => this.controller.onTextButtonClick(event));
               tabViewRow.appendChild(buttonElement);
             });
           });
         });
       }
-    }
-    class Controller {
-      constructor(model) {
-        this.model = model;
-        this.view = new View(this);
-      }
 
-      init() {
-        this.view.renderButtonMap(buttonMap);
-        this.view.bindEvents();
-      }
-
-      onThemeToggle(event) {
-        const themeSelector = event.currentTarget;
-        const checkedInput = themeSelector.querySelector("input[name='theme-selector']:checked");
-        const theme = checkedInput?.value ?? "light";
-        this.view.updateTheme(theme);
-      }
-
-      onTabSwitch(event) {
-        const selected = event.target.closest("label.item");
-        if (!selected) return;
-        const index = selected.dataset.index;
-        document.querySelectorAll("#tab-view-container > *").forEach((el, i) => {
-          el.classList.toggle("is-hidden", i != index);
+      onTextButtonClick(callback) {
+        console.log("onTextButtonClick");
+        const buttons = document.querySelectorAll(".text-button");
+        buttons.forEach(button => {
+          button.addEventListener("click", (event) => {
+            const text = event.target.textContent;
+            console.log(text);
+            callback(text);
+          });
         });
       }
 
-      onTextButtonClick(event) {
-        const text = event.currentTarget.textContent;
-        document.getElementById("copyText").value = text;
-        navigator.clipboard.writeText(text).catch(() => { });
+      renderCopiedText(text) {
+        const copyTextInput = document.getElementById("copy-text");
+        copyTextInput.value = text;
       }
     }
 
-    const model = new Model();
-    const control = new Controller(model);
+    class Controller {
+      constructor(model = new Model(), view = new View()) {
+        this.model = model;
+        this.view = view;
+      }
+
+      init() {
+        this.view.renderButtonMap(this.model.buttonMap);
+        this.view.switchTheme(this.model.theme);
+        this.view.switchTab(this.model.tabIndex);
+        this.view.onThemeChange((theme) => this.handleThemeChange(theme));
+        this.view.onTabChange((index) => this.handleTabChange(index));
+        this.view.onTextButtonClick((text) => this.handleTextButtonClick(text));
+      }
+
+      handleThemeChange(theme) {
+        this.model.theme = theme;
+        this.view.switchTheme(this.model.theme);
+      }
+
+      handleTabChange(index) {
+        this.model.tabIndex = index;
+        this.view.switchTab(this.model.tabIndex);
+      }
+
+      handleTextButtonClick(text) {
+        navigator.clipboard.writeText(text).catch(() => {})
+        this.view.renderCopiedText(text);
+      }
+    }
+
+    const control = new Controller();
     control.init();
   </script>
 </body>
